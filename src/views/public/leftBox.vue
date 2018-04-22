@@ -38,11 +38,11 @@
         data() {
             return {
                 menus: [
-                    {name: '个人信息', icon: 'el-icon-menu', route: '/'},
-                    {name: '医生管理', icon: 'el-icon-menu', route: '/2'},
-                    {name: '学生管理', icon: 'el-icon-menu', route: '/3'},
-                    {name: '药品管理', icon: 'el-icon-menu', route: '/4'},
-                    {name: '挂号信息', icon: 'el-icon-menu', route: '/5'},
+                    {name: '公告管理', icon: 'el-icon-menu', route: '/notices'},
+                    {name: '医生管理', icon: 'el-icon-menu', route: '/doctors'},
+                    {name: '学生管理', icon: 'el-icon-menu', route: '/students'},
+                    {name: '药品管理', icon: 'el-icon-menu', route: '/medicines'},
+                    {name: '挂号信息', icon: 'el-icon-menu', route: '/registers'},
                 ]
             }
         },

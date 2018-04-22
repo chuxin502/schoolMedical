@@ -1,7 +1,7 @@
 <template>
     <div>
         <listHead
-            placeholder="请输入学生姓名/学号"
+            placeholder="请输入公告标题/ID"
             :defaultSearch="searchStr"
             @search="askData"
             @add="add">
@@ -37,15 +37,11 @@
                     align: 'center',
                     tableConfig: {},
                     colConfigs: [
-                        {prop: 'student_id', label: 'ID'},
-                        {prop: 'student_no', label: '学号'},
-                        {prop: 'student_name', label: '姓名'},
-                        {prop: 'student_sex', label: '性别'},
-                        {prop: 'student_insurance', label: '医保号'},
-                        {prop: 'student_college', label: '二级学院'},
-                        {prop: 'student_major', label: '专业'},
-                        {prop: 'student_phone', label: '手机号码'},
-                        {prop: 'student_idcard', label: '身份证号'},
+                        {prop: 'notice_id', label: 'ID'},
+                        {prop: 'notice_title', label: '标题'},
+                        {prop: 'notice_content', label: '内容'},
+                        {prop: 'notice_create_time', label: '创建时间'},
+                        {prop: 'notice_update_time', label: '更新时间'},
                     ],
                     data: [],
                     handle: {

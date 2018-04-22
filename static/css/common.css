@@ -18,6 +18,9 @@ html, body {
 .pull-right {
   float: right; }
 
+.text-center {
+  text-align: center; }
+
 ::-webkit-scrollbar {
   width: 14px;
   height: 14px; }

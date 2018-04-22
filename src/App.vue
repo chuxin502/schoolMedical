@@ -14,5 +14,11 @@
 </script>
 
 <style lang="scss" rel="stylesheet/scss">
-
+    .custom-el-form {
+        .el-form-item__label {
+            &:before {
+                display: none;
+            }
+        }
+    }
 </style>

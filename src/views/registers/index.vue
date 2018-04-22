@@ -37,15 +37,13 @@
                     align: 'center',
                     tableConfig: {},
                     colConfigs: [
-                        {prop: 'student_id', label: 'ID'},
-                        {prop: 'student_no', label: '学号'},
+                        {prop: 'register_id', label: 'ID'},
                         {prop: 'student_name', label: '姓名'},
-                        {prop: 'student_sex', label: '性别'},
-                        {prop: 'student_insurance', label: '医保号'},
-                        {prop: 'student_college', label: '二级学院'},
-                        {prop: 'student_major', label: '专业'},
-                        {prop: 'student_phone', label: '手机号码'},
-                        {prop: 'student_idcard', label: '身份证号'},
+                        {prop: 'register_start_time', label: '开始时间'},
+                        {prop: 'register_end_time', label: '结束时间'},
+                        {prop: 'register_prescript', label: '药方'},
+                        {prop: 'register_spend', label: '药费'},
+                        {prop: 'register_status', label: '状态'}
                     ],
                     data: [],
                     handle: {
