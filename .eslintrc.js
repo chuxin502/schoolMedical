@@ -71,6 +71,7 @@ module.exports = {
         ],
         'no-multi-spaces': 0,
         'space-before-function-paren': [2, 'never'],
-        'comma-dangle': 0
+        'comma-dangle': 0,
+        'no-extend-native': 0,
     }
 }

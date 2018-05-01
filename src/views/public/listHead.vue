@@ -1,6 +1,6 @@
 <template>
     <div class="list-head">
-        <el-button type="primary" @click="add" size="small">添加学生</el-button>
+        <el-button type="primary" @click="add" size="small">{{addBtn}}</el-button>
         <el-input
             class="search-input"
             v-model="searchStr"
@@ -21,6 +21,7 @@
         },
         props: {
             defaultSearch: String,
+            addBtn: String
         },
         methods: {
             add() {

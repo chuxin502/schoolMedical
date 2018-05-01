@@ -1,8 +1,9 @@
 <template>
     <div>
         <listHead
-            placeholder="请输入学生姓名/学号"
+            placeholder="请输入学生姓名/学号/ID"
             :defaultSearch="searchStr"
+            addBtn="添加学生"
             @search="askData"
             @add="add">
         </listHead>
@@ -19,6 +20,7 @@
             v-if="showHandler"
             :type="handlerType"
             :editData="editData"
+            @success="initSuccess"
             @close="showHandler = false">
         </handler>
     </div>
@@ -41,11 +43,11 @@
                         {prop: 'student_no', label: '学号'},
                         {prop: 'student_name', label: '姓名'},
                         {prop: 'student_sex', label: '性别'},
-                        {prop: 'student_insurance', label: '医保号'},
+                        // {prop: 'student_insurance', label: '医保号'},
                         {prop: 'student_college', label: '二级学院'},
-                        {prop: 'student_major', label: '专业'},
+                        // {prop: 'student_major', label: '专业'},
                         {prop: 'student_phone', label: '手机号码'},
-                        {prop: 'student_idcard', label: '身份证号'},
+                        // {prop: 'student_idcard', label: '身份证号'},
                     ],
                     data: [],
                     handle: {
@@ -58,7 +60,7 @@
                 },                            // 表格配置
                 pageIndex: 1,               // 当前页码
                 pageSize: 15,               // 当前一页的信息条数
-                total: 100,                   // 内容总数
+                total: 0,                   // 内容总数
                 searchStr: '',              // 搜索的关键字
                 showHandler: false,          // 显示右侧窗
                 editData: null,             // 正在编辑的数据
@@ -68,7 +70,7 @@
         methods: {
             // 请求数据
             askData(search) {
-                if (search) {
+                if (!this._.isNil(search)) {
                     this.searchStr = search;
                 }
 
@@ -77,12 +79,12 @@
                     pageIndex: this.pageIndex,
                     pageSize: this.pageSize,
                 };
-                console.log(arg);
-                // this.getRequest('', arg, this.initData);
+                this.getRequest('students_list', arg, this.initData);
             },
 
             // 初始化数据
             initData(data) {
+                this.total = data.Data.length;
                 this.tableSetting.data = data.Data;
             },
 
@@ -121,9 +123,11 @@
             // 删除信息
             delete() {
                 this.$confirm('确定要删除该行信息吗？').then(_ => {
-                    let arg = {};
-                    this.postRequest('', arg, this.finishHandle);
-                }).catch(_ => {});
+                    let arg = {
+                        id: this.editData.student_id
+                    };
+                    this.postRequest('students_delete', arg, this.finishHandle);
+                }).catch(() => {});
             },
 
             // 处理成功后的提示
@@ -133,10 +137,16 @@
                     message: '操作成功！',
                     type: 'success'
                 });
+                this.askData();
+            },
+
+            initSuccess() {
+                this.showHandler = false;
+                this.finishHandle();
             }
         },
         created() {
-            // this.askData();
+            this.askData();
         }
     }
 </script>

@@ -23,6 +23,7 @@
 
 <style lang="scss" rel="stylesheet/scss" scoped>
     .right-box {
+        min-width: 1100px;
         position: absolute;
         left: 232px;
         right: 0;

@@ -1,8 +1,9 @@
 <template>
     <div>
         <listHead
-            placeholder="请输入学生姓名/学号"
+            placeholder="请输入医生姓名/ID"
             :defaultSearch="searchStr"
+            addBtn="添加医生"
             @search="askData"
             @add="add">
         </listHead>
@@ -19,6 +20,7 @@
             v-if="showHandler"
             :type="handlerType"
             :editData="editData"
+            @success="initSuccess"
             @close="showHandler = false">
         </handler>
     </div>
@@ -40,8 +42,9 @@
                         {prop: 'doctor_id', label: 'ID'},
                         {prop: 'doctor_name', label: '姓名'},
                         {prop: 'doctor_subject', label: '科目'},
+                        {prop: 'doctor_type', label: '医生类型'},
                         {prop: 'doctor_university', label: '毕业院校'},
-                        {prop: 'doctor_summary', label: '医生简介'},
+                        {prop: 'doctor_summary', label: '医生简介', width: '260'},
                         {prop: 'doctor_work_time', label: '上班时间'},
                     ],
                     data: [],
@@ -55,7 +58,7 @@
                 },                            // 表格配置
                 pageIndex: 1,               // 当前页码
                 pageSize: 15,               // 当前一页的信息条数
-                total: 100,                   // 内容总数
+                total: 0,                   // 内容总数
                 searchStr: '',              // 搜索的关键字
                 showHandler: false,          // 显示右侧窗
                 editData: null,             // 正在编辑的数据
@@ -65,7 +68,7 @@
         methods: {
             // 请求数据
             askData(search) {
-                if (search) {
+                if (!this._.isNil(search)) {
                     this.searchStr = search;
                 }
 
@@ -75,11 +78,12 @@
                     pageSize: this.pageSize,
                 };
                 console.log(arg);
-                // this.getRequest('', arg, this.initData);
+                this.getRequest('doctors_list', arg, this.initData);
             },
 
             // 初始化数据
             initData(data) {
+                this.total = data.Data.length;
                 this.tableSetting.data = data.Data;
             },
 
@@ -118,9 +122,11 @@
             // 删除信息
             delete() {
                 this.$confirm('确定要删除该行信息吗？').then(_ => {
-                    let arg = {};
-                    this.postRequest('', arg, this.finishHandle);
-                }).catch(_ => {});
+                    let arg = {
+                        id: this.editData.doctor_id
+                    };
+                    this.postRequest('doctors_delete', arg, this.finishHandle);
+                }).catch(() => {});
             },
 
             // 处理成功后的提示
@@ -130,10 +136,16 @@
                     message: '操作成功！',
                     type: 'success'
                 });
+                this.askData();
+            },
+
+            initSuccess() {
+                this.showHandler = false;
+                this.finishHandle();
             }
         },
         created() {
-            // this.askData();
+            this.askData();
         }
     }
 </script>

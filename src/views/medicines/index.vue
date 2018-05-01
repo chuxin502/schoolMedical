@@ -1,8 +1,9 @@
 <template>
     <div>
         <listHead
-            placeholder="请输入学生姓名/学号"
+            placeholder="请输入药品名称/编号/ID"
             :defaultSearch="searchStr"
+            addBtn="添加药品"
             @search="askData"
             @add="add">
         </listHead>
@@ -19,6 +20,7 @@
             v-if="showHandler"
             :type="handlerType"
             :editData="editData"
+            @success="initSuccess"
             @close="showHandler = false">
         </handler>
     </div>
@@ -57,7 +59,7 @@
                 },                            // 表格配置
                 pageIndex: 1,               // 当前页码
                 pageSize: 15,               // 当前一页的信息条数
-                total: 100,                   // 内容总数
+                total: 0,                   // 内容总数
                 searchStr: '',              // 搜索的关键字
                 showHandler: false,          // 显示右侧窗
                 editData: null,             // 正在编辑的数据
@@ -67,7 +69,7 @@
         methods: {
             // 请求数据
             askData(search) {
-                if (search) {
+                if (!this._.isNil(search)) {
                     this.searchStr = search;
                 }
 
@@ -77,11 +79,12 @@
                     pageSize: this.pageSize,
                 };
                 console.log(arg);
-                // this.getRequest('', arg, this.initData);
+                this.getRequest('medicines_list', arg, this.initData);
             },
 
             // 初始化数据
             initData(data) {
+                this.total = data.Data.length;
                 this.tableSetting.data = data.Data;
             },
 
@@ -120,8 +123,10 @@
             // 删除信息
             delete() {
                 this.$confirm('确定要删除该行信息吗？').then(_ => {
-                    let arg = {};
-                    this.postRequest('', arg, this.finishHandle);
+                    let arg = {
+                        id: this.editData.medicine_id
+                    };
+                    this.postRequest('medicines_delete', arg, this.finishHandle);
                 }).catch(_ => {});
             },
 
@@ -132,10 +137,16 @@
                     message: '操作成功！',
                     type: 'success'
                 });
+                this.askData();
+            },
+
+            initSuccess() {
+                this.showHandler = false;
+                this.finishHandle();
             }
         },
         created() {
-            // this.askData();
+            this.askData();
         }
     }
 </script>

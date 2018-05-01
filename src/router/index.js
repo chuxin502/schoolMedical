@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+const main = r => require.ensure([], () => r(require('../views/public/main')), 'group-test')
 const login = r => require.ensure([], () => r(require('../views/public/login')), 'group-test')
 const students = r => require.ensure([], () => r(require('../views/students/index.vue')), 'group-test')
 const doctors = r => require.ensure([], () => r(require('../views/doctors/index.vue')), 'group-test')
@@ -13,7 +14,7 @@ Vue.use(Router)
 export default new Router({
     routes: [{
         path: '/',
-        redirect: '/login'
+        component: main
     }, {
         path: '/login',
         name: 'login',

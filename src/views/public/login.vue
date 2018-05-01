@@ -23,8 +23,8 @@
                     :rules="rules"
                     ref="ruleForm"
                     label-width="60px">
-                    <el-form-item label="学号" prop="account">
-                        <el-input v-model="ruleForm.account" placeholder="请输入学号"></el-input>
+                    <el-form-item label="账号" prop="account">
+                        <el-input v-model="ruleForm.account" placeholder="请输入账号"></el-input>
                     </el-form-item>
                     <el-form-item label="密码" prop="pw">
                         <el-input v-model="ruleForm.pw" placeholder="请输入密码"></el-input>
@@ -36,7 +36,7 @@
                             <el-radio :label="3">管理员</el-radio>
                         </el-radio-group>
                     </el-form-item>
-                    <el-button class="login-btn" type="primary">登录</el-button>
+                    <el-button class="login-btn" type="primary" @click="login">登录</el-button>
                 </el-form>
             </div>
         </div>
@@ -53,22 +53,42 @@
                     type: '',
                 },
                 rules: {
-                    name: [{ required: true, message: '请输入活动名称', trigger: 'blur' }],
-                    pw: [{ required: true, message: '请输入活动名称', trigger: 'blur' }],
-                    type: [{ required: true, message: '请输入活动名称', trigger: 'change' }],
+                    account: [{ required: true, message: '请输入账号', trigger: 'blur' }],
+                    pw: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+                    type: [{ required: true, message: '请选择用户类型', trigger: 'change' }],
                 }
             }
         },
         methods: {
-            login() {
+            goHome() {
+                this.$message({
+                    showClose: true,
+                    message: '登录成功！',
+                    type: 'success'
+                });
+                this.$router.push('/');
+            },
 
-            }
+            login() {
+                this.$refs.ruleForm.validate((valid) => {
+                    if (!valid) return;
+
+                    let arg = {
+                        account: this.ruleForm.account,
+                        pw: this.ruleForm.pw,
+                        type: this.ruleForm.type,
+                    };
+                    console.log(arg);
+                    this.postRequest('auth_sign_in', arg, this.goHome);
+                });
+            },
         }
     }
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>
     .login {
+        min-width: 1300px;
         position: fixed;
         top: 0;
         bottom: 0;

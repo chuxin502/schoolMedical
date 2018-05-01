@@ -3,8 +3,8 @@
         <div class="left-box-head">
             <p>校园医疗管理系统</p>
             <div>
-                <span>当前用户：小渣渣</span>
-                <span class="logout">[退出]</span>
+                <span>当前用户：{{userInfo.name}}</span>
+                <span class="logout" @click="logout">[退出]</span>
             </div>
         </div>
         <el-menu
@@ -34,19 +34,45 @@
 </template>
 
 <script type="text/babel">
+    import system from 'Vuex/store/system'
+
     export default {
+        computed: {
+            userInfo() {
+                return system.getters.getUserInfo;
+            },
+            menus() {
+                switch (this.userInfo.type) {
+                    case 1:
+                        return this.studentMenus;
+                    case 2:
+                        return this.studentMenus;
+                    case 3:
+                        return this.managerMenus;
+                }
+            }
+        },
         data() {
             return {
-                menus: [
+                managerMenus: [
                     {name: '公告管理', icon: 'el-icon-menu', route: '/notices'},
                     {name: '医生管理', icon: 'el-icon-menu', route: '/doctors'},
                     {name: '学生管理', icon: 'el-icon-menu', route: '/students'},
                     {name: '药品管理', icon: 'el-icon-menu', route: '/medicines'},
                     {name: '挂号信息', icon: 'el-icon-menu', route: '/registers'},
-                ]
+                ],
+                studentMenus: [
+                    {name: '挂号信息', icon: 'el-icon-menu', route: '/registers'},
+                ],
             }
         },
         methods: {
+            logout() {
+                this.getRequest('auth_sign_out', null, this.initLogout);
+            },
+            initLogout() {
+                this.$router.push({path: 'login'});
+            }
             // changeMenu(route) {
             //     this.$router.push({path: route})
             // }

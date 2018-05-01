@@ -1,8 +1,9 @@
 <template>
     <div>
         <listHead
-            placeholder="请输入学生姓名/学号"
+            placeholder="请输入挂号ID"
             :defaultSearch="searchStr"
+            addBtn="添加挂号"
             @search="askData"
             @add="add">
         </listHead>
@@ -19,18 +20,25 @@
             v-if="showHandler"
             :type="handlerType"
             :editData="editData"
+            @success="initSuccess"
             @close="showHandler = false">
         </handler>
     </div>
 </template>
 
 <script type="text/babel">
+    import system from 'Vuex/store/system'
     import listHead from 'views/public/listHead'
     import listContent from 'views/public/listContent'
     import handler from './handler'
 
     export default {
         components: {listHead, listContent, handler},
+        computed: {
+            userInfo() {
+                return system.getters.getUserInfo;
+            }
+        },
         data() {
             return {
                 tableSetting: {
@@ -38,9 +46,9 @@
                     tableConfig: {},
                     colConfigs: [
                         {prop: 'register_id', label: 'ID'},
-                        {prop: 'student_name', label: '姓名'},
-                        {prop: 'register_start_time', label: '开始时间'},
-                        {prop: 'register_end_time', label: '结束时间'},
+                        {prop: 'registerName', label: '预约人'},
+                        {prop: 'registerTime', label: '预约时间', width: '160'},
+                        {prop: 'subject', label: '科目'},
                         {prop: 'register_prescript', label: '药方'},
                         {prop: 'register_spend', label: '药费'},
                         {prop: 'register_status', label: '状态'}
@@ -56,7 +64,7 @@
                 },                            // 表格配置
                 pageIndex: 1,               // 当前页码
                 pageSize: 15,               // 当前一页的信息条数
-                total: 100,                   // 内容总数
+                total: 0,                   // 内容总数
                 searchStr: '',              // 搜索的关键字
                 showHandler: false,          // 显示右侧窗
                 editData: null,             // 正在编辑的数据
@@ -66,7 +74,7 @@
         methods: {
             // 请求数据
             askData(search) {
-                if (search) {
+                if (!this._.isNil(search)) {
                     this.searchStr = search;
                 }
 
@@ -74,14 +82,43 @@
                     search: this.searchStr,
                     pageIndex: this.pageIndex,
                     pageSize: this.pageSize,
+                    filters: this.userInfo.type === 1 ? JSON.stringify({register_student_id: this.userInfo.id}) : null
                 };
-                console.log(arg);
-                // this.getRequest('', arg, this.initData);
+                this.getRequest('registers_list', arg, this.initData);
             },
 
             // 初始化数据
             initData(data) {
+                this.total = data.Data.length;
+                data.Data.forEach((item) => {
+                    item.registerName = item.register.student_name;
+                    item.registerTime = item.register_time.getDateTime();
+                    item.subject = item.register_subject === 1 ? '内科' : '外科';
+                });
                 this.tableSetting.data = data.Data;
+
+                let configs;
+                switch (this.userInfo.type) {
+                    case 1:
+                        configs = [
+                            {name: '编辑', event: 'edit'},
+                            {name: '删除', event: 'delete'},
+                        ];
+                        break;
+                    case 2:
+                        configs = [
+                            {name: '报到', event: 'report'},
+                        ];
+                        break;
+                    case 3:
+                        configs = [
+                            {name: '报到', event: 'report'},
+                            {name: '编辑', event: 'edit'},
+                            {name: '删除', event: 'delete'},
+                        ];
+                        break;
+                }
+                this.tableSetting.handle.configs = configs;
             },
 
             // 切页
@@ -107,6 +144,9 @@
                     case 'delete':
                         this.delete();
                         break;
+                    case 'report':
+                        this.report();
+                        break;
                 }
             },
 
@@ -119,8 +159,20 @@
             // 删除信息
             delete() {
                 this.$confirm('确定要删除该行信息吗？').then(_ => {
-                    let arg = {};
-                    this.postRequest('', arg, this.finishHandle);
+                    let arg = {
+                        id: this.editData.register_id
+                    };
+                    this.postRequest('registers_delete', arg, this.finishHandle);
+                }).catch(_ => {});
+            },
+
+            // 删除信息
+            report() {
+                this.$confirm('确定要对该挂号进行确认报到操作吗？').then(_ => {
+                    let arg = {
+                        id: this.editData.register_id
+                    };
+                    this.postRequest('registers_report', arg, this.finishHandle);
                 }).catch(_ => {});
             },
 
@@ -131,10 +183,16 @@
                     message: '操作成功！',
                     type: 'success'
                 });
+                this.askData();
+            },
+
+            initSuccess() {
+                this.showHandler = false;
+                this.finishHandle();
             }
         },
         created() {
-            // this.askData();
+            this.askData();
         }
     }
 </script>
