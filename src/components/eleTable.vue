@@ -10,13 +10,13 @@
                 <span>{{scope.row[config.prop] || '--'}}</span>
             </template>
         </el-table-column>
-        <el-table-column fixed="right" :label="setting.handle.label" width="100" align="center">
+        <el-table-column fixed="right" :label="setting.action.label" :width="setting.action.width || '100px'" align="center">
             <template slot-scope="scope">
                 <el-button
                     @click="handleClick(scope.row, config.event)"
                     type="text"
                     size="small"
-                    v-for="(config,index) in setting.handle.configs"
+                    v-for="(config,index) in scope.row.action || setting.action.configs"
                     :key="index">
                     {{config.name}}
                 </el-button>
@@ -47,7 +47,7 @@
                 //         {name: 'haha'},
                 //         {name: 'hehe'},
                 //     ],
-                //     handle: {
+                //     action: {
                 //         label: '操作',
                 //         configs: [
                 //             {name: '编辑', event: 'edit'},

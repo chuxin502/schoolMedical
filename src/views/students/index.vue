@@ -50,7 +50,7 @@
                         // {prop: 'student_idcard', label: '身份证号'},
                     ],
                     data: [],
-                    handle: {
+                    action: {
                         label: '操作',
                         configs: [
                             {name: '编辑', event: 'edit'},

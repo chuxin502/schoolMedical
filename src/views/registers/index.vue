@@ -23,6 +23,11 @@
             @success="initSuccess"
             @close="showHandler = false">
         </handler>
+        <diagnose
+            v-if="showDiagnose"
+            @success="initSuccess"
+            @close="showDiagnose = false">
+        </diagnose>
     </div>
 </template>
 
@@ -31,9 +36,10 @@
     import listHead from 'views/public/listHead'
     import listContent from 'views/public/listContent'
     import handler from './handler'
+    import diagnose from './diagnose'
 
     export default {
-        components: {listHead, listContent, handler},
+        components: {listHead, listContent, handler, diagnose},
         computed: {
             userInfo() {
                 return system.getters.getUserInfo;
@@ -46,27 +52,25 @@
                     tableConfig: {},
                     colConfigs: [
                         {prop: 'register_id', label: 'ID'},
-                        {prop: 'registerName', label: '预约人'},
+                        {prop: 'student_name', label: '预约人'},
                         {prop: 'registerTime', label: '预约时间', width: '160'},
                         {prop: 'subject', label: '科目'},
+                        {prop: 'register_disease', label: '疾病'},
                         {prop: 'register_prescript', label: '药方'},
                         {prop: 'register_spend', label: '药费'},
                         {prop: 'register_status', label: '状态'}
                     ],
                     data: [],
-                    handle: {
+                    action: {
                         label: '操作',
-                        configs: [
-                            {name: '编辑', event: 'edit'},
-                            {name: '删除', event: 'delete'},
-                        ]
                     }
                 },                            // 表格配置
                 pageIndex: 1,               // 当前页码
                 pageSize: 15,               // 当前一页的信息条数
                 total: 0,                   // 内容总数
                 searchStr: '',              // 搜索的关键字
-                showHandler: false,          // 显示右侧窗
+                showHandler: false,          // 显示添加/编辑右侧窗
+                showDiagnose: true,          // 显示诊断右侧窗
                 editData: null,             // 正在编辑的数据
                 handlerType: 'add',         // 右侧窗的类型
             }
@@ -91,34 +95,41 @@
             initData(data) {
                 this.total = data.Data.length;
                 data.Data.forEach((item) => {
-                    item.registerName = item.register.student_name;
                     item.registerTime = item.register_time.getDateTime();
                     item.subject = item.register_subject === 1 ? '内科' : '外科';
+
+                    item.action = [];
+                    switch (this.userInfo.type) {
+                        case 1:
+                            if (item.register_status === '待报到') {
+                                item.action = [
+                                    {name: '编辑', event: 'edit'},
+                                    {name: '取消', event: 'cancel'},
+                                ];
+                            }
+                            break;
+                        case 2:
+                            switch (item.register_status) {
+                                case '待报到':
+                                    item.action = [{name: '报到', event: 'report'}];
+                                    break;
+                                case '就诊中':
+                                    item.action = [{name: '诊断', event: 'diagnose'}];
+                                    break;
+                                case '待取药':
+                                    item.action = [{name: '收款', event: 'receive'}];
+                                    break;
+                            }
+                            break;
+                        case 3:
+                            item.action = [
+                                {name: '编辑', event: 'edit'},
+                                {name: '删除', event: 'delete'},
+                            ];
+                            break;
+                    }
                 });
                 this.tableSetting.data = data.Data;
-
-                let configs;
-                switch (this.userInfo.type) {
-                    case 1:
-                        configs = [
-                            {name: '编辑', event: 'edit'},
-                            {name: '删除', event: 'delete'},
-                        ];
-                        break;
-                    case 2:
-                        configs = [
-                            {name: '报到', event: 'report'},
-                        ];
-                        break;
-                    case 3:
-                        configs = [
-                            {name: '报到', event: 'report'},
-                            {name: '编辑', event: 'edit'},
-                            {name: '删除', event: 'delete'},
-                        ];
-                        break;
-                }
-                this.tableSetting.handle.configs = configs;
             },
 
             // 切页
@@ -144,8 +155,14 @@
                     case 'delete':
                         this.delete();
                         break;
+                    case 'cancel':
+                        this.cancel();
+                        break;
                     case 'report':
                         this.report();
+                        break;
+                    case 'diagnose':
+                        this.showDiagnose = true;
                         break;
                 }
             },
@@ -166,14 +183,24 @@
                 }).catch(_ => {});
             },
 
-            // 删除信息
+            // 取消挂号
+            cancel() {
+                this.$confirm('确定要取消挂号吗？').then(() => {
+                    let arg = {
+                        id: this.editData.register_id
+                    };
+                    this.postRequest('registers_cancel', arg, this.finishHandle);
+                }).catch(() => {});
+            },
+
+            // 挂号报到
             report() {
-                this.$confirm('确定要对该挂号进行确认报到操作吗？').then(_ => {
+                this.$confirm('确定要对该挂号进行确认报到操作吗？').then(() => {
                     let arg = {
                         id: this.editData.register_id
                     };
                     this.postRequest('registers_report', arg, this.finishHandle);
-                }).catch(_ => {});
+                }).catch(() => {});
             },
 
             // 处理成功后的提示

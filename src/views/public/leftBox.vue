@@ -8,7 +8,7 @@
             </div>
         </div>
         <el-menu
-            default-active="2"
+            :default-active="$route.path"
             class="el-menu-vertical-demo"
             background-color="#545c64"
             text-color="#fff"
@@ -46,7 +46,7 @@
                     case 1:
                         return this.studentMenus;
                     case 2:
-                        return this.studentMenus;
+                        return this.doctorMenus;
                     case 3:
                         return this.managerMenus;
                 }
@@ -58,6 +58,10 @@
                     {name: '公告管理', icon: 'el-icon-menu', route: '/notices'},
                     {name: '医生管理', icon: 'el-icon-menu', route: '/doctors'},
                     {name: '学生管理', icon: 'el-icon-menu', route: '/students'},
+                    {name: '药品管理', icon: 'el-icon-menu', route: '/medicines'},
+                    {name: '挂号信息', icon: 'el-icon-menu', route: '/registers'},
+                ],
+                doctorMenus: [
                     {name: '药品管理', icon: 'el-icon-menu', route: '/medicines'},
                     {name: '挂号信息', icon: 'el-icon-menu', route: '/registers'},
                 ],
@@ -73,9 +77,8 @@
             initLogout() {
                 this.$router.push({path: 'login'});
             }
-            // changeMenu(route) {
-            //     this.$router.push({path: route})
-            // }
+        },
+        created() {
         }
     }
 </script>

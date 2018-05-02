@@ -47,5 +47,16 @@
                 display: none;
             }
         }
+        &.el-form--label-top {
+            .el-form-item__label {
+                padding: 0;
+            }
+        }
+        .el-form-item {
+            margin-bottom: 10px;
+            &.is-error {
+                margin-bottom: 22px;
+            }
+        }
     }
 </style>

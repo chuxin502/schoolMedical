@@ -48,7 +48,7 @@
                         {prop: 'doctor_work_time', label: '上班时间'},
                     ],
                     data: [],
-                    handle: {
+                    action: {
                         label: '操作',
                         configs: [
                             {name: '编辑', event: 'edit'},

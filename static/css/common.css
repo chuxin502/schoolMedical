@@ -9,6 +9,9 @@ html, body {
   font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "\5FAE\8F6F\96C5\9ED1", Arial, sans-serif;
   color: #324057; }
 
+.full-width {
+  width: 100% !important; }
+
 .hidden {
   overflow: hidden; }
 

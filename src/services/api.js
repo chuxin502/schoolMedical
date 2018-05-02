@@ -18,5 +18,6 @@ export default {
     registers_list: '/api/registers/list',
     registers_save: '/api/registers/save',
     registers_delete: '/api/registers/delete',
+    registers_cancel: '/api/registers/cancel',
     registers_report: '/api/registers/report',
 }

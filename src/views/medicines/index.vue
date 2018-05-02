@@ -49,7 +49,7 @@
                         {prop: 'medicine_describe', label: '主要功效'},
                     ],
                     data: [],
-                    handle: {
+                    action: {
                         label: '操作',
                         configs: [
                             {name: '编辑', event: 'edit'},

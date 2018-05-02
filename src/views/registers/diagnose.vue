@@ -1,8 +1,16 @@
 <template>
-    <eleSide :title="title" @close="close">
+    <eleSide title="诊断" @close="close">
         <div slot="content">
-            <el-form class="custom-el-form" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="90px">
-                <el-form-item label="预约学生" prop="student" v-if="userInfo.type !== 1">
+            <el-form
+                class="custom-el-form"
+                :model="ruleForm"
+                :rules="rules"
+                ref="ruleForm"
+                label-position="top">
+                <el-form-item label="疾病名称" prop="name">
+                    <el-input v-model="ruleForm.name" placeholder="请输入疾病名称"></el-input>
+                </el-form-item>
+                <el-form-item label="药品" prop="student">
                     <el-select v-model="ruleForm.student" placeholder="请选择预约学生" class="full-width">
                         <el-option
                             v-for="student in students"
@@ -12,19 +20,13 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="预约时间" prop="time">
-                    <el-date-picker
-                        class="full-width"
-                        v-model="ruleForm.time"
-                        type="datetime"
-                        placeholder="请选择预约时间">
-                    </el-date-picker>
-                </el-form-item>
-                <el-form-item label="科目" prop="subject">
-                    <el-radio-group v-model="ruleForm.subject">
-                        <el-radio :label="1">内科</el-radio>
-                        <el-radio :label="2">外科</el-radio>
-                    </el-radio-group>
+                <el-form-item label="备注" prop="remake">
+                    <el-input
+                        type="textarea"
+                        :rows="4"
+                        placeholder="请输入备注"
+                        v-model="ruleForm.remake">
+                    </el-input>
                 </el-form-item>
             </el-form>
             <div class="side-foot">
@@ -50,20 +52,6 @@
             }
         },
         data() {
-            // let checkEndTime = (rule, value, callback) => {
-            //     if (!value) {
-            //         return callback(new Error('请选择结束时间'));
-            //     }
-            //
-            //     if (!this.ruleForm.startTime) {
-            //         return callback();
-            //     }
-            //
-            //     if (this.ruleForm.startTime.getTime() >= value.getTime()) {
-            //         return callback(new Error('结束时间需晚于开始时间'));
-            //     }
-            //     callback();
-            // };
             return {
                 ruleForm: {
                     student: '',
@@ -72,7 +60,7 @@
                 },
                 rules: {
                     student: [{ required: true, message: '请选择预约学生', trigger: 'change', type: 'number' }],
-                    time: [{ required: true, message: '请选择预约时间', trigger: 'change', type: 'date' }],
+                    name: [{ required: true, message: '请选择预约时间', trigger: 'blur', type: 'date' }],
                     subject: [{ required: true, message: '请选择科目', trigger: 'change', type: 'number' }],
                 },
                 students: []
