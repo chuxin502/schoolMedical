@@ -20,4 +20,5 @@ export default {
     registers_delete: '/api/registers/delete',
     registers_cancel: '/api/registers/cancel',
     registers_report: '/api/registers/report',
+    registers_diagnose: '/api/registers/diagnose',
 }

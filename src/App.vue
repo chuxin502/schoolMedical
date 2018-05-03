@@ -59,4 +59,7 @@
             }
         }
     }
+    .el-table__header {
+        line-height: normal;
+    }
 </style>

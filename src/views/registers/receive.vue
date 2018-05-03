@@ -1,58 +1,16 @@
 <template>
-    <eleSide title="诊断" @close="close">
+    <eleSide title="收款" @close="close">
         <div slot="content">
-            <el-form
-                class="custom-el-form"
-                :model="ruleForm"
-                :rules="rules"
-                ref="ruleForm"
-                label-position="top">
-                <el-form-item label="病症" prop="name">
-                    <el-input v-model="ruleForm.name" placeholder="请输入病症"></el-input>
-                </el-form-item>
-                <el-form-item label="药品" prop="medicine">
-                    <i class="add-btn el-icon-circle-plus" @click="addMedicine"></i>
-                    <el-table :data="ruleForm.prescript" border>
-                        <el-table-column prop="name" label="药品" align="center">
-                            <template slot-scope="scope">
-                                <el-select v-model="scope.row.medicine" placeholder="请选择药品" size="small" value-key="medicine_id">
-                                    <el-option
-                                        v-for="medicine in medicines"
-                                        :key="medicine.medicine_id"
-                                        :label="medicine.medicine_name"
-                                        :value="medicine">
-                                    </el-option>
-                                </el-select>
-                            </template>
-                        </el-table-column>
-                        <el-table-column prop="unit" label="单位" align="center">
-                            <template slot-scope="scope">
-                                <el-select v-model="scope.row.unit" placeholder="请选择单位" size="small">
-                                    <el-option
-                                        v-for="(unit,index) in units"
-                                        :key="index"
-                                        :label="unit"
-                                        :value="unit">
-                                    </el-option>
-                                </el-select>
-                            </template>
-                        </el-table-column>
-                        <el-table-column prop="num" label="数量" align="center">
-                            <template slot-scope="scope">
-                                <el-input-number size="small" v-model="scope.row.num" :min="0"></el-input-number>
-                            </template>
-                        </el-table-column>
-                    </el-table>
-                </el-form-item>
-                <el-form-item label="备注" prop="remake">
-                    <el-input
-                        type="textarea"
-                        :rows="4"
-                        placeholder="请输入备注"
-                        v-model="ruleForm.remake">
-                    </el-input>
-                </el-form-item>
-            </el-form>
+            <el-table :data="editData.register_prescript" border>
+                <el-table-column prop="name" label="药品" align="center"></el-table-column>
+                <el-table-column prop="num" label="数量" align="center"></el-table-column>
+                <el-table-column prop="price" label="单价" align="center"></el-table-column>
+                <el-table-column prop="total" label="总计" align="center">
+                    <template slot-scope="scope">
+                        <el-input-number size="small" v-model="scope.row.num" :min="0"></el-input-number>
+                    </template>
+                </el-table-column>
+            </el-table>
             <div class="side-foot">
                 <el-button type="primary" class="foot-btn" @click="save">确定</el-button>
                 <el-button class="foot-btn" @click="close">取消</el-button>

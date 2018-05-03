@@ -25,6 +25,7 @@
         </handler>
         <diagnose
             v-if="showDiagnose"
+            :editData="editData"
             @success="initSuccess"
             @close="showDiagnose = false">
         </diagnose>
@@ -56,8 +57,8 @@
                         {prop: 'registerTime', label: '预约时间', width: '160'},
                         {prop: 'subject', label: '科目'},
                         {prop: 'register_disease', label: '疾病'},
-                        {prop: 'register_prescript', label: '药方'},
-                        {prop: 'register_spend', label: '药费'},
+                        {prop: 'prescript', label: '药方'},
+                        // {prop: 'register_spend', label: '药费'},
                         {prop: 'register_status', label: '状态'}
                     ],
                     data: [],
@@ -70,7 +71,7 @@
                 total: 0,                   // 内容总数
                 searchStr: '',              // 搜索的关键字
                 showHandler: false,          // 显示添加/编辑右侧窗
-                showDiagnose: true,          // 显示诊断右侧窗
+                showDiagnose: false,          // 显示诊断右侧窗
                 editData: null,             // 正在编辑的数据
                 handlerType: 'add',         // 右侧窗的类型
             }
@@ -97,6 +98,8 @@
                 data.Data.forEach((item) => {
                     item.registerTime = item.register_time.getDateTime();
                     item.subject = item.register_subject === 1 ? '内科' : '外科';
+                    item.register_prescript = item.register_prescript ? JSON.parse(item.register_prescript) : [];
+                    item.prescript = item.register_prescript.map(medicine => medicine.name + medicine.num + medicine.unit).join('、');
 
                     item.action = [];
                     switch (this.userInfo.type) {
@@ -147,6 +150,7 @@
             // 表格按钮事件
             handleBtnEvents(row, event) {
                 this.editData = row;
+                console.log(row);
                 switch (event) {
                     case 'edit':
                         this.handlerType = 'edit';
@@ -215,6 +219,7 @@
 
             initSuccess() {
                 this.showHandler = false;
+                this.showDiagnose = false;
                 this.finishHandle();
             }
         },
