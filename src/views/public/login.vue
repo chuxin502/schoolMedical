@@ -78,7 +78,6 @@
                         pw: this.ruleForm.pw,
                         type: this.ruleForm.type,
                     };
-                    console.log(arg);
                     this.postRequest('auth_sign_in', arg, this.goHome);
                 });
             },

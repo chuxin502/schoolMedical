@@ -73,7 +73,6 @@
                 this.getRequest('/api/test', null, this.initData)
             },
             initData(data) {
-                console.log(data)
             }
         },
         created() {

@@ -108,7 +108,6 @@
                         doctor_summary: this.ruleForm.summary,
                         doctor_work_time: this.ruleForm.workTime,
                     };
-                    console.log(arg);
                     this.postRequest('doctors_save', arg, this.initSave);
                 });
             },

@@ -50,7 +50,6 @@
                 let arg = {
                     id: this.editData.register_id,
                 };
-                console.log(arg);
                 this.postRequest('registers_receive', arg, this.initSave);
             },
 
@@ -59,7 +58,6 @@
             }
         },
         created() {
-            console.log(this.editData);
         }
     }
 </script>

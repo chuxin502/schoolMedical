@@ -116,7 +116,6 @@ function request(vue, response, link, func) {
 
     switch (transData.Code) {
         case -401:
-            console.log(link);
             vue.$router.push('/login');
             // window.location.href = window.loginLink + window.location.origin
             break

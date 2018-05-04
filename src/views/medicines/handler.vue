@@ -99,7 +99,6 @@
                         medicine_price: this.ruleForm.price,
                         medicine_describe: this.ruleForm.describe,
                     };
-                    console.log(arg);
                     this.postRequest('medicines_save', arg, this.initSave);
                 });
             },

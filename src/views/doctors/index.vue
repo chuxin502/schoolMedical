@@ -77,7 +77,6 @@
                     pageIndex: this.pageIndex,
                     pageSize: this.pageSize,
                 };
-                console.log(arg);
                 this.getRequest('doctors_list', arg, this.initData);
             },
 

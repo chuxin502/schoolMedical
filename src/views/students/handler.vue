@@ -94,7 +94,6 @@
                         student_college: this.ruleForm.college,
                         student_phone: this.ruleForm.phone,
                     };
-                    console.log(arg);
                     this.postRequest('students_save', arg, this.initSave);
                 });
             },

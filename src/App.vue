@@ -30,7 +30,6 @@
 
             initUserInfo(data) {
                 this.showContent = true;
-                console.log(system);
                 system.commit('RECEIVE_USER_INFO', data.Data);
             }
         },

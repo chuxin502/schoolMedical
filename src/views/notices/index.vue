@@ -73,8 +73,7 @@
                     pageIndex: this.pageIndex,
                     pageSize: this.pageSize,
                 };
-                console.log(arg);
-                // this.getRequest('', arg, this.initData);
+                this.getRequest('', arg, this.initData);
             },
 
             // 初始化数据

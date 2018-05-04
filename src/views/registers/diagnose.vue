@@ -128,7 +128,6 @@
                         register_prescript: JSON.stringify(prescript),
                         register_remake: this.ruleForm.remake
                     };
-                    console.log(arg);
                     this.postRequest('registers_diagnose', arg, this.initSave);
                 });
             },
@@ -139,7 +138,6 @@
         },
         created() {
             this.askMedicines();
-            console.log(this.editData);
         }
     }
 </script>

@@ -28,7 +28,6 @@
                 this.$emit('add');
             },
             search(str) {
-                console.log(str);
                 this.$emit('search', str);
             },
         },

@@ -158,7 +158,6 @@
             // 表格按钮事件
             handleBtnEvents(row, event) {
                 this.editData = row;
-                console.log(row);
                 switch (event) {
                     case 'edit':
                         this.handlerType = 'edit';

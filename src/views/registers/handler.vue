@@ -101,7 +101,6 @@
                     time: this.editData.register_time.getDateObj(),
                     subject: this.editData.register_subject,
                 };
-                console.log(this.ruleForm.time);
             },
 
             close() {

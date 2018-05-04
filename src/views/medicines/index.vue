@@ -78,7 +78,6 @@
                     pageIndex: this.pageIndex,
                     pageSize: this.pageSize,
                 };
-                console.log(arg);
                 this.getRequest('medicines_list', arg, this.initData);
             },
 
