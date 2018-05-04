@@ -29,6 +29,12 @@
             @success="initSuccess"
             @close="showDiagnose = false">
         </diagnose>
+        <receive
+            v-if="showReceive"
+            :editData="editData"
+            @success="initSuccess"
+            @close="showReceive = false">
+        </receive>
     </div>
 </template>
 
@@ -38,9 +44,10 @@
     import listContent from 'views/public/listContent'
     import handler from './handler'
     import diagnose from './diagnose'
+    import receive from './receive'
 
     export default {
-        components: {listHead, listContent, handler, diagnose},
+        components: {listHead, listContent, handler, diagnose, receive},
         computed: {
             userInfo() {
                 return system.getters.getUserInfo;
@@ -72,6 +79,7 @@
                 searchStr: '',              // 搜索的关键字
                 showHandler: false,          // 显示添加/编辑右侧窗
                 showDiagnose: false,          // 显示诊断右侧窗
+                showReceive: false,          // 显示收款右侧窗
                 editData: null,             // 正在编辑的数据
                 handlerType: 'add',         // 右侧窗的类型
             }
@@ -168,6 +176,9 @@
                     case 'diagnose':
                         this.showDiagnose = true;
                         break;
+                    case 'receive':
+                        this.showReceive = true;
+                        break;
                 }
             },
 
@@ -220,6 +231,7 @@
             initSuccess() {
                 this.showHandler = false;
                 this.showDiagnose = false;
+                this.showReceive = false;
                 this.finishHandle();
             }
         },

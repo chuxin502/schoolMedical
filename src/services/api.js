@@ -21,4 +21,5 @@ export default {
     registers_cancel: '/api/registers/cancel',
     registers_report: '/api/registers/report',
     registers_diagnose: '/api/registers/diagnose',
+    registers_receive: '/api/registers/receive',
 }

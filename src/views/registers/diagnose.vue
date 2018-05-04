@@ -68,9 +68,6 @@
     export default {
         components: {eleSide},
         computed: {
-            title() {
-                return this.type === 'add' ? '添加挂号' : '编辑挂号';
-            },
             userInfo() {
                 return system.getters.getUserInfo;
             }
