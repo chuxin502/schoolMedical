@@ -2,6 +2,7 @@ export default {
     auth_user_info: '/api/auth/userInfo',
     auth_sign_in: '/api/auth/signIn',
     auth_sign_out: '/api/auth/signOut',
+    auth_edit_pw: '/api/auth/editPW',
 
     students_list: '/api/students/list',
     students_save: '/api/students/save',

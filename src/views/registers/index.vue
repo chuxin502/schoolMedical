@@ -63,7 +63,7 @@
                         {prop: 'student_name', label: '预约人'},
                         {prop: 'registerTime', label: '预约时间', width: '160'},
                         {prop: 'subject', label: '科目'},
-                        {prop: 'register_disease', label: '疾病'},
+                        {prop: 'register_disease', label: '病症'},
                         {prop: 'prescript', label: '药方'},
                         // {prop: 'register_spend', label: '药费'},
                         {prop: 'register_status', label: '状态'}

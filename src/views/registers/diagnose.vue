@@ -27,14 +27,15 @@
                         </el-table-column>
                         <el-table-column prop="unit" label="单位" align="center">
                             <template slot-scope="scope">
-                                <el-select v-model="scope.row.unit" placeholder="请选择单位" size="small">
-                                    <el-option
-                                        v-for="(unit,index) in units"
-                                        :key="index"
-                                        :label="unit"
-                                        :value="unit">
-                                    </el-option>
-                                </el-select>
+                                {{scope.row.medicine ? scope.row.medicine.medicine_unit : '--'}}
+                                <!--<el-select v-model="scope.row.unit" placeholder="请选择单位" size="small">-->
+                                    <!--<el-option-->
+                                        <!--v-for="(unit,index) in units"-->
+                                        <!--:key="index"-->
+                                        <!--:label="unit"-->
+                                        <!--:value="unit">-->
+                                    <!--</el-option>-->
+                                <!--</el-select>-->
                             </template>
                         </el-table-column>
                         <el-table-column prop="num" label="数量" align="center">
@@ -83,7 +84,7 @@
                     name: [{required: true, message: '请输入病症', trigger: 'blur'}],
                 },
                 medicines: [],                      // 药品
-                units: ['粒', '瓶', '盒', '包'],          // 药品单位
+                // units: ['粒', '瓶', '盒', '包'],          // 药品单位
             }
         },
         props: {
@@ -116,9 +117,10 @@
 
                     let prescript = this.ruleForm.prescript.map((item) => {
                         return {
+                            id: item.medicine.medicine_id,
                             name: item.medicine.medicine_name,
                             price: item.medicine.medicine_price,
-                            unit: item.unit,
+                            unit: item.medicine.medicine_unit,
                             num: item.num,
                         };
                     });

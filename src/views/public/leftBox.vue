@@ -2,9 +2,10 @@
     <div class="left-box">
         <div class="left-box-head">
             <p>校园医疗管理系统</p>
-            <div>
-                <span>当前用户：{{userInfo.name}}</span>
-                <span class="logout" @click="logout">[退出]</span>
+            <div>当前用户：{{userInfo.name}}</div>
+            <div class="left-box-cation">
+                <span class="cation-item" @click="showEditPW = true">[修改密码]</span>
+                <span class="cation-item" @click="logout">[退出登录]</span>
             </div>
         </div>
         <el-menu
@@ -30,13 +31,17 @@
                 </el-menu-item>
             </div>
         </el-menu>
+
+        <editPW v-if="showEditPW" @success="finishHandle" @close="showEditPW = false"></editPW>
     </div>
 </template>
 
 <script type="text/babel">
     import system from 'Vuex/store/system'
+    import editPW from './editPW'
 
     export default {
+        components: {editPW},
         computed: {
             userInfo() {
                 return system.getters.getUserInfo;
@@ -68,15 +73,27 @@
                 studentMenus: [
                     {name: '挂号信息', icon: 'el-icon-menu', route: '/registers'},
                 ],
+                showEditPW: false,      // 显示修改密码右侧窗
             }
         },
         methods: {
             logout() {
                 this.getRequest('auth_sign_out', null, this.initLogout);
             },
+
             initLogout() {
                 this.$router.push({path: 'login'});
-            }
+            },
+
+            // 处理成功后的提示
+            finishHandle() {
+                this.showEditPW = false;
+                this.$message({
+                    showClose: true,
+                    message: '操作成功！',
+                    type: 'success'
+                });
+            },
         },
         created() {
         }
@@ -95,7 +112,7 @@
         height: 118px;
         color: white;
         text-align: center;
-        padding-top: 30px;
+        padding-top: 20px;
         p {
             font-size: 22px;
             margin-bottom: 18px;
@@ -104,9 +121,19 @@
             font-size: 14px;
         }
     }
-    .logout {
+    .left-box-cation {
+        margin-top: 5px;
+    }
+    .cation-item {
         cursor: pointer;
         margin-left: 10px;
+        font-size: 12px;
+        &:first-child {
+            margin-left: 0;
+        }
+        &:hover {
+            text-decoration: underline;
+        }
     }
 </style>
 <style lang="scss" rel="stylesheet/scss">
