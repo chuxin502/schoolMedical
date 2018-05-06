@@ -6,6 +6,7 @@
             addBtn="添加药品"
             @search="askData"
             @add="add">
+            <el-button type="primary" @click="addBatch = true" size="small">添加批次</el-button>
         </listHead>
         <listContent
             :setting="tableSetting"
@@ -23,6 +24,11 @@
             @success="initSuccess"
             @close="showHandler = false">
         </handler>
+        <batch
+            v-if="addBatch"
+            @success="initSuccess"
+            @close="addBatch = false">
+        </batch>
     </div>
 </template>
 
@@ -30,9 +36,10 @@
     import listHead from 'views/public/listHead'
     import listContent from 'views/public/listContent'
     import handler from './handler'
+    import batch from './batch'
 
     export default {
-        components: {listHead, listContent, handler},
+        components: {listHead, listContent, handler, batch},
         data() {
             return {
                 tableSetting: {
@@ -41,7 +48,7 @@
                     colConfigs: [
                         {prop: 'medicine_id', label: 'ID'},
                         {prop: 'medicine_name', label: '药品名称'},
-                        {prop: 'medicine_type', label: '药品编号'},
+                        {prop: 'medicine_no', label: '药品编号'},
                         {prop: 'medicine_standard', label: '药品规格'},
                         {prop: 'medicine_range', label: '限制范围'},
                         {prop: 'medicine_stock', label: '库存'},
@@ -62,6 +69,7 @@
                 total: 0,                   // 内容总数
                 searchStr: '',              // 搜索的关键字
                 showHandler: false,          // 显示右侧窗
+                addBatch: false,          // 显示添加批次右侧窗
                 editData: null,             // 正在编辑的数据
                 handlerType: 'add',         // 右侧窗的类型
             }

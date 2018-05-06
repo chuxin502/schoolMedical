@@ -1,6 +1,7 @@
 <template>
     <div class="list-head">
         <el-button type="primary" @click="add" size="small">{{addBtn}}</el-button>
+        <slot></slot>
         <el-input
             class="search-input"
             v-model="searchStr"

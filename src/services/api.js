@@ -15,6 +15,7 @@ export default {
     medicines_list: '/api/medicines/list',
     medicines_save: '/api/medicines/save',
     medicines_delete: '/api/medicines/delete',
+    medicines_update_batch: '/api/medicines/updateBatch',
 
     registers_list: '/api/registers/list',
     registers_save: '/api/registers/save',
