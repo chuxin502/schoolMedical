@@ -3,6 +3,7 @@
         <listHead
             placeholder="请输入公告标题/ID"
             :defaultSearch="searchStr"
+            addBtn="添加公告"
             @search="askData"
             @add="add">
         </listHead>
@@ -44,17 +45,11 @@
                         {prop: 'notice_update_time', label: '更新时间'},
                     ],
                     data: [],
-                    handle: {
-                        label: '操作',
-                        configs: [
-                            {name: '编辑', event: 'edit'},
-                            {name: '删除', event: 'delete'},
-                        ]
-                    }
+                    action: {label: '操作'}
                 },                            // 表格配置
                 pageIndex: 1,               // 当前页码
                 pageSize: 15,               // 当前一页的信息条数
-                total: 100,                   // 内容总数
+                total: 0,                   // 内容总数
                 searchStr: '',              // 搜索的关键字
                 showHandler: false,          // 显示右侧窗
                 editData: null,             // 正在编辑的数据
@@ -64,7 +59,7 @@
         methods: {
             // 请求数据
             askData(search) {
-                if (search) {
+                if (!this._.isNil(search)) {
                     this.searchStr = search;
                 }
 
@@ -73,7 +68,7 @@
                     pageIndex: this.pageIndex,
                     pageSize: this.pageSize,
                 };
-                this.getRequest('', arg, this.initData);
+                this.getRequest('notices_list', arg, this.initData);
             },
 
             // 初始化数据
@@ -109,8 +104,7 @@
 
             // 添加信息
             add() {
-                this.handlerType = 'add';
-                this.showHandler = true;
+                this.$router.push('/handleNotice');
             },
 
             // 删除信息
@@ -131,7 +125,7 @@
             }
         },
         created() {
-            // this.askData();
+            this.askData();
         }
     }
 </script>

@@ -7,6 +7,7 @@ const students = r => require.ensure([], () => r(require('../views/students/inde
 const doctors = r => require.ensure([], () => r(require('../views/doctors/index.vue')), 'group-test')
 const medicines = r => require.ensure([], () => r(require('../views/medicines/index.vue')), 'group-test')
 const notices = r => require.ensure([], () => r(require('../views/notices/index.vue')), 'group-test')
+const handlerNotice = r => require.ensure([], () => r(require('../views/notices/handler')), 'group-test')
 const registers = r => require.ensure([], () => r(require('../views/registers/index.vue')), 'group-test')
 
 Vue.use(Router)
@@ -35,6 +36,10 @@ export default new Router({
         path: '/notices',
         name: 'notices',
         component: notices
+    }, {
+        path: '/handleNotice',
+        name: 'handleNotice',
+        component: handlerNotice
     }, {
         path: '/registers',
         name: 'registers',

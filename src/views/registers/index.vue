@@ -69,9 +69,7 @@
                         {prop: 'register_status', label: '状态'}
                     ],
                     data: [],
-                    action: {
-                        label: '操作',
-                    }
+                    action: {label: '操作'}
                 },                            // 表格配置
                 pageIndex: 1,               // 当前页码
                 pageSize: 15,               // 当前一页的信息条数

@@ -4,6 +4,10 @@ export default {
     auth_sign_out: '/api/auth/signOut',
     auth_edit_pw: '/api/auth/editPW',
 
+    notices_list: '/api/notices/list',
+    notices_save: '/api/notices/save',
+    notices_delete: '/api/notices/delete',
+
     students_list: '/api/students/list',
     students_save: '/api/students/save',
     students_delete: '/api/students/delete',
