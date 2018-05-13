@@ -31,6 +31,24 @@
             initUserInfo(data) {
                 this.showContent = true;
                 system.commit('RECEIVE_USER_INFO', data.Data);
+
+                if (data.Data.type === 2) {
+                    this.askMedicineStock();
+                }
+            },
+
+            askMedicineStock() {
+                this.getRequest('medicines_less', null, this.initMedicineStock);
+            },
+
+            initMedicineStock(data) {
+                if (data.Data.length) {
+                    this.$notify({
+                        title: '药品库存预警',
+                        message: `${data.Data.join('、')}${data.Data.length === 10 ? '等' : ''}库存较低，请及时补充`,
+                        duration: 0
+                    });
+                }
             }
         },
         created() {

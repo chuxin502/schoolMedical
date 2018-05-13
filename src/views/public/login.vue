@@ -10,9 +10,9 @@
                     <span class="notice-title">通知公告</span>
                     <span class="notice-more">more>></span>
                 </div>
-                <div class="notice-box">
-                    <div class="notice-info">胃溃疡</div>
-                    <div class="notice-date">2018-04-12</div>
+                <div class="notice-box" v-for="(notice,index) in notices" :key="index">
+                    <div class="notice-info">{{notice.notice_title}}</div>
+                    <div class="notice-date">{{notice.notice_update_time}}</div>
                 </div>
             </div>
             <div class="login-box">
@@ -56,10 +56,27 @@
                     account: [{ required: true, message: '请输入账号', trigger: 'blur' }],
                     pw: [{ required: true, message: '请输入密码', trigger: 'blur' }],
                     type: [{ required: true, message: '请选择用户类型', trigger: 'change' }],
-                }
+                },
+                notices: [],                // 公告列表
             }
         },
         methods: {
+            // 请求数据
+            askData() {
+                let arg = {
+                    pageSize: 5,
+                };
+                this.getRequest('notices_list', arg, this.initData);
+            },
+
+            // 初始化数据
+            initData(data) {
+                data.Data.forEach((item) => {
+                    item.notice_update_time = item.notice_update_time.getDate();
+                });
+                this.notices = data.Data;
+            },
+
             goHome() {
                 this.$message({
                     showClose: true,
@@ -81,6 +98,9 @@
                     this.postRequest('auth_sign_in', arg, this.goHome);
                 });
             },
+        },
+        created() {
+            this.askData();
         }
     }
 </script>
@@ -145,12 +165,16 @@
     .notice-box {
         border-bottom: 1px dashed #cccccc;
         overflow: hidden;
-        height: 30px;
-        line-height: 30px;
+        /*height: 30px;*/
+        line-height: 36px;
+        cursor: pointer;
+        &:hover {
+            background-color: rgb(245,245,245);
+        }
     }
     .notice-info {
         width: 600px;
-        font-size: 17px;
+        font-size: 15px;
         float: left;
     }
     .notice-date {

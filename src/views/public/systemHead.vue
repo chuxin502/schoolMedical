@@ -1,7 +1,7 @@
 <template>
     <div class="header">
         <div class="pull-right">
-            <div class="head-btn fa fa-cog"></div>
+            <router-link tag="div" to="/noticesShow" class="head-btn fa fa-bell-o"></router-link>
             <div class="head-btn fa fa-commenting-o"></div>
             <div class="head-btn fa fa-file-text-o"></div>
         </div>

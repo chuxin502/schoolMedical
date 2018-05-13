@@ -16,12 +16,6 @@
             @changePageIndex="changePageIndex"
             @changePageSize="changePageSize">
         </listContent>
-        <handler
-            v-if="showHandler"
-            :type="handlerType"
-            :editData="editData"
-            @close="showHandler = false">
-        </handler>
     </div>
 </template>
 
@@ -40,20 +34,23 @@
                     colConfigs: [
                         {prop: 'notice_id', label: 'ID'},
                         {prop: 'notice_title', label: '标题'},
-                        {prop: 'notice_content', label: '内容'},
                         {prop: 'notice_create_time', label: '创建时间'},
                         {prop: 'notice_update_time', label: '更新时间'},
                     ],
                     data: [],
-                    action: {label: '操作'}
+                    action: {
+                        label: '操作',
+                        configs: [
+                            {name: '编辑', event: 'edit'},
+                            {name: '删除', event: 'delete'},
+                        ]
+                    }
                 },                            // 表格配置
                 pageIndex: 1,               // 当前页码
                 pageSize: 15,               // 当前一页的信息条数
                 total: 0,                   // 内容总数
                 searchStr: '',              // 搜索的关键字
-                showHandler: false,          // 显示右侧窗
                 editData: null,             // 正在编辑的数据
-                handlerType: 'add',         // 右侧窗的类型
             }
         },
         methods: {
@@ -73,6 +70,11 @@
 
             // 初始化数据
             initData(data) {
+                this.total = data.Data.length;
+                data.Data.forEach((item) => {
+                    item.notice_create_time = item.notice_create_time.getDateTime();
+                    item.notice_update_time = item.notice_update_time.getDateTime();
+                });
                 this.tableSetting.data = data.Data;
             },
 
@@ -93,8 +95,7 @@
                 this.editData = row;
                 switch (event) {
                     case 'edit':
-                        this.handlerType = 'edit';
-                        this.showHandler = true;
+                        this.$router.push({path: '/handleNotice', query: {id: this.editData.notice_id}});
                         break;
                     case 'delete':
                         this.delete();
@@ -110,8 +111,10 @@
             // 删除信息
             delete() {
                 this.$confirm('确定要删除该行信息吗？').then(_ => {
-                    let arg = {};
-                    this.postRequest('', arg, this.finishHandle);
+                    let arg = {
+                        id: this.editData.notice_id
+                    };
+                    this.postRequest('notices_delete', arg, this.finishHandle);
                 }).catch(_ => {});
             },
 
@@ -122,6 +125,7 @@
                     message: '操作成功！',
                     type: 'success'
                 });
+                this.askData();
             }
         },
         created() {

@@ -65,6 +65,7 @@
                     {name: '学生管理', icon: 'el-icon-menu', route: '/students'},
                     {name: '药品管理', icon: 'el-icon-menu', route: '/medicines'},
                     {name: '挂号信息', icon: 'el-icon-menu', route: '/registers'},
+                    {name: '统计信息', icon: 'el-icon-menu', route: '/statistics'},
                 ],
                 doctorMenus: [
                     {name: '药品管理', icon: 'el-icon-menu', route: '/medicines'},

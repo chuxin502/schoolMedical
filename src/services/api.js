@@ -17,6 +17,7 @@ export default {
     doctors_delete: '/api/doctors/delete',
 
     medicines_list: '/api/medicines/list',
+    medicines_less: '/api/medicines/less',
     medicines_save: '/api/medicines/save',
     medicines_delete: '/api/medicines/delete',
 
@@ -27,4 +28,6 @@ export default {
     registers_report: '/api/registers/report',
     registers_diagnose: '/api/registers/diagnose',
     registers_receive: '/api/registers/receive',
+
+    statistics_info: '/api/statistics/info',
 }

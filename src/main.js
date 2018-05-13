@@ -5,6 +5,7 @@ import axios from 'axios'
 import elementUi from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css';
 // import draggable from 'vuedraggable'
+import echarts from 'echarts'
 import lodash from 'lodash'
 import 'services/index'
 import 'utils/index'
@@ -16,6 +17,7 @@ import router from './router'
 
 Vue.prototype.$http = axios
 Vue.prototype._ = lodash
+Vue.prototype.$echarts = echarts;
 
 Vue.config.productionTip = false
 
