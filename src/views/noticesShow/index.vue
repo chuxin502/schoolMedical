@@ -25,10 +25,9 @@
 <script type="text/babel">
     import listHead from 'views/public/listHead'
     import listContent from 'views/public/listContent'
-    import handler from './handler'
 
     export default {
-        components: {listHead, listContent, handler},
+        components: {listHead, listContent},
         data() {
             return {
                 activeNames: [],         // 当前展开的面板
