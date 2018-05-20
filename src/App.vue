@@ -1,6 +1,7 @@
 <template>
     <div id="app">
-        <home v-if="showContent || $route.name === 'login'"></home>
+        <router-view/>
+        <!--<home v-if="showContent || $route.name === 'login'"></home>-->
     </div>
 </template>
 
